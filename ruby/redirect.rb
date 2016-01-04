@@ -1,12 +1,13 @@
 # encoding: utf-8
 require 'sinatra'
+require 'logger'
 
 configure do
-  # logging is enabled by default in classic style applications,
-  # so `enable :logging` is not needed
-  file = File.new("#{settings.root}/log/#{settings.environment}.log", 'a+')
-  file.sync = true
-  use Rack::CommonLogger, file
+  set :logging, nil
+  logger = Logger.new STDOUT
+  logger.level = Logger::INFO
+  logger.datetime_format = '%a %d-%m-%Y %H%M '
+  set :logger, logger
 end
 
 get "/callback/*" do
@@ -14,6 +15,6 @@ get "/callback/*" do
   path_query = "#{path}?#{request.query_string}"
   url = "perobo://oauth-callback#{path_query}"  
   puts url
-  logger.info url
+  settings.logger.info url
   redirect url
 end
