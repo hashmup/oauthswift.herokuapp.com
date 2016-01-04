@@ -1,13 +1,8 @@
 # encoding: utf-8
-require 'sinatra'
-require 'logger'
 
-configure do
-  set :logging, nil
-  logger = Logger.new STDOUT
-  logger.level = Logger::INFO
-  logger.datetime_format = '%a %d-%m-%Y %H%M '
-  set :logger, logger
+configure do 
+  Log = Logger.new("sinatra.log")
+  Log.level  = Logger::INFO 
 end
 
 get "/callback/*" do
@@ -15,6 +10,6 @@ get "/callback/*" do
   path_query = "#{path}?#{request.query_string}"
   url = "perobo://oauth-callback#{path_query}"  
   puts url
-  settings.logger.info url
+  Log.info url
   redirect url
 end
