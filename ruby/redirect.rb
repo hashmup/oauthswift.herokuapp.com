@@ -5,6 +5,7 @@ get "/callback/*" do
   path_query = "#{path}?#{request.query_string}"
   url = "perobo://oauth-callback#{path_query}"  
   puts "hello"
-  puts "#{url}"
+  logger.info url
+  logger.debug url
   redirect url
 end
