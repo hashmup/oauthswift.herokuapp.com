@@ -13,5 +13,6 @@ get "/callback/*" do
   puts "hello"
   logger.info url
   logger.debug url
+  return url
   redirect url
 end
